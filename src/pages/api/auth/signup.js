@@ -11,7 +11,7 @@ const signUp = async (req, res) => {
       return res.status(405).json({ message: "Method Not Allowed" });
     }
 
-    const { email, password } = req.body;
+    const { name, email, password, profilePicture } = req.body;
 
     // Check if the username already exists
     const existingUser = await User.findOne({ email });
@@ -24,8 +24,10 @@ const signUp = async (req, res) => {
 
     // Create a new user
     await User.create({
+      name: name,
       email: email,
       password: hashedPassword,
+      profilePicture: profilePicture,
     });
 
     // Create a JWT token
