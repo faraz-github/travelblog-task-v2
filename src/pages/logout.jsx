@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Logout = () => {
   const router = useRouter();
+  const { setIsAuthenticated } = useAuth();
 
   useEffect(() => {
     const logout = async () => {
@@ -12,6 +14,7 @@ const Logout = () => {
         });
 
         if (response.ok) {
+          setIsAuthenticated(false);
           router.push("/login");
         } else {
           console.error("Logout failed");

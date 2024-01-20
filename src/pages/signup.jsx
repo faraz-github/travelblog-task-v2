@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import RedirectedRoute from "@/components/RedirectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SignUp = () => {
   const router = useRouter();
+  const { setIsAuthenticated } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,7 +22,8 @@ const SignUp = () => {
       });
 
       if (response.ok) {
-        router.push("/login");
+        setIsAuthenticated(true);
+        router.push("/dashboard");
       } else {
         console.error("Sign-up failed");
       }
