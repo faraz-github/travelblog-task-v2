@@ -1,13 +1,9 @@
-import path from "path";
-import fs from "fs/promises";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import { parse } from "cookie";
+import User from "@/models/User";
 
 const SECRET = process.env.JWT_SECRET;
 const MAX_AGE = 60 * 60 * 24 * 7; // 1 week in seconds
-
-const usersFilePath = path.join(process.cwd(), "src", "data", "users.json");
 
 const login = async (req, res) => {
   try {
@@ -17,16 +13,14 @@ const login = async (req, res) => {
 
     const { email, password } = req.body;
 
-    // TODO retrieve user from mongodb
-    // Retrieve user data from the JSON file (this is just for demonstration purposes)
-    // In a production environment, you would use a database.
-    // Read the existing users data or initialize with an empty array
-    const existingUsersData = await fs.readFile(usersFilePath, "utf-8");
-    const users = JSON.parse(existingUsersData || "[]");
+    // Check if the username already exists
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
 
-    const user = users.find((u) => u.email === email);
-
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    // Check if the password is correct
+    if (!(await bcrypt.compare(password, existingUser.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 

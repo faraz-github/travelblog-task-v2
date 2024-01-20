@@ -1,13 +1,9 @@
-import path from "path";
-import fs from "fs/promises";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import { parse } from "cookie";
+import User from "@/models/User";
 
 const SECRET = process.env.JWT_SECRET;
 const MAX_AGE = 60 * 60 * 24 * 7; // 1 week in seconds
-
-const usersFilePath = path.join(process.cwd(), "src", "data", "users.json");
 
 const signUp = async (req, res) => {
   try {
@@ -17,20 +13,20 @@ const signUp = async (req, res) => {
 
     const { email, password } = req.body;
 
+    // Check if the username already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
     // Perform password hashing
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // TODO save user in mongodb
-    // Save user data to a JSON file (this is just for demonstration purposes)
-    // In a production environment, you would use a database.
-    // Read the existing users data or initialize with an empty array
-    const existingUsersData = await fs.readFile(usersFilePath, "utf-8");
-    const users = JSON.parse(existingUsersData || "[]");
-
-    users.push({ email, password: hashedPassword });
-
-    // Save user data to the users.json file
-    await fs.writeFile(usersFilePath, JSON.stringify(users, null, 2));
+    // Create a new user
+    await User.create({
+      email: email,
+      password: hashedPassword,
+    });
 
     // Create a JWT token
     const token = sign({ email }, SECRET, { expiresIn: "1d" });

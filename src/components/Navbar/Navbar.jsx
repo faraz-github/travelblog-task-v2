@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 const Navbar = () => {
   const { isAuthenticated } = useAuth();
   const pathname = usePathname();
-  console.log({ pathname });
 
   return (
     <nav className={styles.navigation}>
