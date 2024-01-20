@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import RedirectedRoute from "@/components/RedirectedRoute";
 
 const Login = () => {
   const router = useRouter();
@@ -70,4 +71,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RedirectedRoute(Login);
