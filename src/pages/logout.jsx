@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/AuthContext";
+import styles from "./Pages.module.css";
 
 const Logout = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const Logout = () => {
   }, [router]);
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", marginTop: "50px" }}>
+    <div className={styles.userFormContainer}>
       <p>Logging out...</p>
     </div>
   );

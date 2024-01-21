@@ -2,7 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background: #bcaaa4;
+}
+
 :root {
+  --grey-500: #9e9e9e;
+  --grey-200: #eeeeee;
+  --grey-900: #212121;
+  --blue-button: #2196f3;
+  --green-button: #4caf50;
+  --white: #ffffff;
+}
+
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -30,4 +43,4 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */

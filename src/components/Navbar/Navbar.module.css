@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  background-color: #f0f0f0;
+  background-color: var(--grey-500);
+  border-bottom: 2px solid var(--grey-900);
 }
 
 .left {
@@ -18,5 +19,5 @@
 .link {
   margin-right: 1rem;
   text-decoration: none;
-  color: #333;
+  color: var(--grey-900);
 }

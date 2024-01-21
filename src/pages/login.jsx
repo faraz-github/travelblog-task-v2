@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import RedirectedRoute from "@/components/RedirectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
+import styles from "./Pages.module.css";
 
 const Login = () => {
   const router = useRouter();
@@ -33,39 +34,30 @@ const Login = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", marginTop: "50px" }}>
-      <h2>Login</h2>
+    <div className={styles.userFormContainer}>
+      <h2 className={styles.userFormTitle}>Login</h2>
       <form onSubmit={handleLogin}>
-        <label style={{ display: "block", marginBottom: "10px" }}>Email:</label>
+        <label className={styles.formLabel}>Email:</label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={{ width: "100%", marginBottom: "15px", padding: "8px" }}
+          className={styles.inputField}
         />
 
-        <label style={{ display: "block", marginBottom: "10px" }}>
-          Password:
-        </label>
+        <label className={styles.formLabel}>Password:</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={{ width: "100%", marginBottom: "20px", padding: "8px" }}
+          className={styles.inputField}
         />
 
         <button
           type="submit"
-          style={{
-            padding: "10px",
-            background: "#4caf50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
+          className={`${styles.submitButton} ${styles.greenBtn}`}
         >
           Login
         </button>

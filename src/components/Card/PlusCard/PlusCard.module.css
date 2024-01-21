@@ -1,0 +1,24 @@
+.card {
+  width: 100%;
+  padding: 20px;
+  border: 2px solid var(--grey-900);
+  border-radius: 5px;
+  background-color: var(--grey-500);
+  font-family: monospace;
+}
+
+.plusCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.plusCard:hover {
+  transform: scale(1.05);
+}
+
+.plus {
+  font-size: 10em;
+}

@@ -1,0 +1,74 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.cardsContainer {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.blueBtn {
+  background-color: var(--blue-button);
+  color: var(--white);
+}
+
+.greenBtn {
+  background-color: var(--green-button);
+  color: var(--white);
+}
+
+/* User Forms (Sign Up / Login / Logout) CSS */
+
+.userFormContainer {
+  max-width: 400px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.userFormTitle {
+  font-size: 1.5em;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.inputField {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 8px;
+}
+
+.fileInput {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.submitButton {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* --- */
+
+/* Media queries for responsiveness */
+
+/* Tablet Screen */
+@media (min-width: 768px) {
+  .cardsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Laptop Screen */
+@media (min-width: 1024px) {
+  .cardsContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

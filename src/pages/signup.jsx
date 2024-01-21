@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import RedirectedRoute from "@/components/RedirectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
+import styles from "./Pages.module.css";
 
 const SignUp = () => {
   const router = useRouter();
@@ -70,57 +71,46 @@ const SignUp = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", marginTop: "50px" }}>
-      <h2>Sign Up</h2>
+    <div className={styles.userFormContainer}>
+      <h2 className={styles.userFormTitle}>Sign Up</h2>
       <form onSubmit={handleSignUp}>
-        <label style={{ display: "block", marginBottom: "10px" }}>Name:</label>
+        <label className={styles.formLabel}>Name:</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          style={{ width: "100%", marginBottom: "15px", padding: "8px" }}
+          className={styles.inputField}
         />
-        <label style={{ display: "block", marginBottom: "10px" }}>Email:</label>
+        <label className={styles.formLabel}>Email:</label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={{ width: "100%", marginBottom: "15px", padding: "8px" }}
+          className={styles.inputField}
         />
 
-        <label style={{ display: "block", marginBottom: "10px" }}>
-          Password:
-        </label>
+        <label className={styles.formLabel}>Password:</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={{ width: "100%", marginBottom: "20px", padding: "8px" }}
+          className={styles.inputField}
         />
 
-        <label style={{ display: "block", marginBottom: "10px" }}>
-          Profile Picture:
-        </label>
+        <label className={styles.formLabel}>Profile Picture:</label>
         <input
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          style={{ display: "block", marginBottom: "20px" }}
+          className={styles.fileInput}
         />
 
         <button
           type="submit"
-          style={{
-            padding: "10px",
-            background: "#2196f3",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
+          className={`${styles.submitButton} ${styles.blueBtn}`}
         >
           Sign Up
         </button>

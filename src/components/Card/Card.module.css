@@ -1,0 +1,63 @@
+/* Add styles for the new card components */
+
+.card {
+  width: 100%;
+  padding: 20px;
+  border: 2px solid var(--grey-900);
+  border-radius: 5px;
+  background-color: var(--grey-500);
+  font-family: monospace;
+}
+
+.articleCard {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.articleCard:hover {
+  transform: scale(1.05);
+}
+
+.articleCardContent {
+  position: relative;
+  overflow: hidden;
+  /* border: 1px solid #ddd; */
+  border-radius: 5px;
+}
+
+.articleTitle {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: var(--grey-900);
+}
+
+.articleCoverImage {
+  width: 100%;
+  height: 200px; /* Adjust height as needed */
+  object-fit: cover;
+}
+
+.articleContent {
+  padding: 20px;
+  /* border: 1px solid red; */
+}
+
+.readMoreButton {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  padding: 10px;
+  background: var(--blue-button);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.authorDetails {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--white);
+}
+
+/* Add media queries for responsive adjustments if needed */

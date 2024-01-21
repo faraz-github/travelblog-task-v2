@@ -30,9 +30,16 @@ const Navbar = () => {
           </>
         )}
         {isAuthenticated && (
-          <Link className={styles.link} href="/logout">
-            Logout
-          </Link>
+          <>
+            {pathname !== "/dashboard" && (
+              <Link className={styles.link} href="/dashboard">
+                Dashboard
+              </Link>
+            )}
+            <Link className={styles.link} href="/logout">
+              Logout
+            </Link>
+          </>
         )}
       </div>
     </nav>
