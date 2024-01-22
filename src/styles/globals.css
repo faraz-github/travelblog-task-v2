@@ -6,6 +6,10 @@ body {
   background: #bcaaa4;
 }
 
+.middleContainer {
+  min-height: 100vh;
+}
+
 :root {
   --grey-500: #9e9e9e;
   --grey-200: #eeeeee;

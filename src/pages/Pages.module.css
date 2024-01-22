@@ -20,7 +20,7 @@
   color: var(--white);
 }
 
-/* User Forms (Sign Up / Login / Logout) CSS */
+/* Forms (Sign Up / Login / Logout / Create) CSS */
 
 .userFormContainer {
   max-width: 400px;
@@ -55,7 +55,57 @@
   cursor: pointer;
 }
 
+.blogFormContainer {
+  max-width: 600px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.blogFormTitle {
+  font-size: 1.5em;
+}
+
+.textareaField {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 8px;
+  min-height: 150px;
+}
+
 /* --- */
+
+/* Single Blog Page */
+.blogContainer {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.coverPicture {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.blogContent {
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.authorInfo {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.publishedDate {
+  font-style: italic;
+}
 
 /* Media queries for responsiveness */
 
