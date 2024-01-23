@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 import { formatDateIntoMonthNameDateNumberYearNumber } from "@/utils/momentUtils";
 
+import Comments from "@/components/Comments/Comments";
 import styles from "../Pages.module.css";
 
 const BlogPage = () => {
@@ -50,6 +51,9 @@ const BlogPage = () => {
         Date Published:{" "}
         {formatDateIntoMonthNameDateNumberYearNumber(blog.createdAt)}
       </p>
+
+      {/* Render the Comments component */}
+      <Comments blogId={id} comments={blog.comments} />
     </div>
   );
 };
