@@ -9,7 +9,10 @@ const blogSchema = new Schema(
     coverPicture: {
       type: String,
       default:
-        "https://t4.ftcdn.net/jpg/02/27/45/09/360_F_227450952_KQCMShHPOPebUXklULsKsROk5AvN6H1H.jpg",
+        "https://res.cloudinary.com/farazdevmedia/image/upload/v1706196490/TravelBlog-Task/Blogs/Image/Placeholder/Cover_Placeholder_mnm9lk.jpg",
+    },
+    coverVideo: {
+      type: String,
     },
     blogContent: {
       type: String,

@@ -11,7 +11,7 @@ const create = async (req, res) => {
       return res.status(405).json({ message: "Method Not Allowed" });
     }
 
-    const { title, coverPicture, blogContent } = req.body;
+    const { title, coverPicture, coverVideo, blogContent } = req.body;
 
     // Auth Check
     // Retrieve the token from the request cookies
@@ -35,6 +35,7 @@ const create = async (req, res) => {
     await Blog.create({
       title: title,
       coverPicture: coverPicture,
+      coverVideo: coverVideo,
       blogContent: blogContent,
       author: { name, email, profilePicture },
     });

@@ -14,7 +14,7 @@ const userSchema = new Schema(
     profilePicture: {
       type: String,
       default:
-        "https://t4.ftcdn.net/jpg/02/27/45/09/360_F_227450952_KQCMShHPOPebUXklULsKsROk5AvN6H1H.jpg",
+        "https://res.cloudinary.com/farazdevmedia/image/upload/v1706196357/TravelBlog-Task/Users/Placeholder/User_Placeholder_zfnnh1.jpg",
     },
     password: { type: String, required: [true, "Please add a password"] },
   },
