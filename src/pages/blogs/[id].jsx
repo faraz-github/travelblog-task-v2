@@ -6,11 +6,22 @@ import { formatDateIntoMonthNameDateNumberYearNumber } from "@/utils/momentUtils
 
 import Comments from "@/components/Comments/Comments";
 import styles from "../Pages.module.css";
+import Modal from "@/components/Modal/Modal";
 
 const BlogPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [blog, setBlog] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -37,14 +48,46 @@ const BlogPage = () => {
   return (
     <div className={styles.blogContainer}>
       <h1 className={styles.title}>{blog.title}</h1>
-      <Image
-        src={blog.coverPicture}
-        alt={blog.title}
-        width={0}
-        height={0}
-        sizes="100vw"
-        className={styles.coverPicture}
-      />
+
+      {blog.coverVideo && (
+        <div className={styles.coverImage}>
+          <Image
+            src={blog.coverPicture}
+            alt={blog.title}
+            width={0}
+            height={0}
+            sizes="100vw"
+            className={styles.coverImage}
+            onClick={openModal}
+          />
+          <div
+            className={styles.playButtonOverlay}
+            onClick={openModal}
+            role="button"
+          >
+            <div className={styles.playButtonIcon}></div>
+          </div>
+          {/* Reusable Modal */}
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <video controls autoPlay className={styles.modalVideo}>
+              <source src={blog.coverVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </Modal>
+        </div>
+      )}
+
+      {blog.coverPicture && !blog.coverVideo && (
+        <Image
+          src={blog.coverPicture}
+          alt={blog.title}
+          width={0}
+          height={0}
+          sizes="100vw"
+          className={styles.coverPicture}
+        />
+      )}
+
       <p className={styles.blogContent}>{blog.blogContent}</p>
       <p className={styles.authorInfo}>Author: {blog.author.name}</p>
       <p className={styles.publishedDate}>

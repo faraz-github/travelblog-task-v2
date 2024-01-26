@@ -23,7 +23,9 @@ const handler = async (req, res) => {
       const { email } = decodedToken;
 
       // Fetch all blogs from the database for the logged in user
-      const userBlogs = await Blog.find({ "author.email": email });
+      const userBlogs = await Blog.find({ "author.email": email }).sort({
+        createdAt: -1,
+      });
 
       return res.status(200).json(userBlogs);
     } catch (error) {
