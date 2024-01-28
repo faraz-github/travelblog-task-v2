@@ -1,21 +1,42 @@
 import { useEffect, useState } from "react";
-import styles from "./Pages.module.css";
+import toast from "react-hot-toast";
+
 import Card from "@/components/Card/Card";
+import Loader from "@/components/Loader/Loader";
+
+import { useLoading } from "@/contexts/LoadingContext";
 import { formatDateIntoMonthNameDateNumberYearNumber } from "../utils/momentUtils";
 
+import styles from "./Pages.module.css";
+
 export default function Home() {
+  const { loading, startLoading, stopLoading } = useLoading();
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
+  const [disableNext, setDisableNext] = useState(false);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
+        startLoading();
         const response = await fetch(`/api/blogs/get?page=${page}`);
         const data = await response.json();
-
-        setBlogs(data);
+        if (response.ok) {
+          if (page !== 1 && data.length === 0) {
+            toast.error("It looks like you've reached the end");
+            setDisableNext(true);
+          } else {
+            setDisableNext(false);
+          }
+          setBlogs(data);
+        } else {
+          toast.error(data.error);
+        }
       } catch (error) {
+        toast.error("Error occurred");
         console.error("Error fetching blogs:", error);
+      } finally {
+        stopLoading();
       }
     };
 
@@ -50,14 +71,28 @@ export default function Home() {
             />
           ))}
         </div>
+        {/* Pagination */}
+        {!loading && (
+          <div className={styles.paginationContainer}>
+            <button
+              onClick={handlePrevPage}
+              disabled={page === 1}
+              className={`${styles.paginationButton} ${styles.redBtn}`}
+            >
+              &#171; Prev
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={disableNext || blogs.length < 10}
+              className={`${styles.paginationButton} ${styles.greenBtn}`}
+            >
+              Next &#187;
+            </button>
+          </div>
+        )}
 
-        <div>
-          <button onClick={handlePrevPage} disabled={page === 1}>
-            Previous
-          </button>
-          <button onClick={handleNextPage}>Next</button>
-        </div>
-        {/* <button onClick={handleNextPage}>Next</button> */}
+        {/* Loading */}
+        {loading && <Loader />}
       </div>
     </div>
   );

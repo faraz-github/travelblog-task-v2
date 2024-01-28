@@ -1,12 +1,17 @@
-import ProtectedRoute from "@/components/ProtectedRoute";
-
 import { useState } from "react";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+
+import ProtectedRoute from "@/components/ProtectedRoute";
+import Loader from "@/components/Loader/Loader";
+
+import { useLoading } from "@/contexts/LoadingContext";
 
 import styles from "../Pages.module.css";
 
 const CreateBlog = () => {
   const router = useRouter();
+  const { loading, startLoading, stopLoading } = useLoading();
   const [title, setTitle] = useState("");
   const [coverPicture, setCoverPicture] = useState("");
   const [coverVideo, setCoverVideo] = useState(null);
@@ -28,7 +33,7 @@ const CreateBlog = () => {
   const uploadCoverPicture = async (base64EncodedImage) => {
     try {
       // Upload profile picture to Cloudinary
-      const imageData = await fetch("/api/upload/blog/image", {
+      const response = await fetch("/api/upload/blog/image", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,9 +41,14 @@ const CreateBlog = () => {
         body: JSON.stringify({ coverPicture: base64EncodedImage }),
       });
 
-      const { url } = await imageData.json();
-      return url;
+      const data = await response.json();
+      if (response.ok) {
+        return data.url;
+      } else {
+        toast.error(data.error);
+      }
     } catch (error) {
+      toast.error("Error occurred");
       console.error("Upload error:", error);
     }
   };
@@ -50,8 +60,14 @@ const CreateBlog = () => {
 
   const handleVideoUpload = async (event) => {
     event.preventDefault();
-    setVideoUploading(true);
+
+    if (coverVideoUrl !== "") {
+      toast.success("File already uploaded 🎉");
+      return;
+    }
+
     try {
+      setVideoUploading(true);
       const formData = new FormData();
       formData.append("file", coverVideo);
 
@@ -60,17 +76,18 @@ const CreateBlog = () => {
         body: formData,
       });
 
+      const data = await response.json();
       if (response.ok) {
-        setVideoUploading(false);
-        const { url } = await response.json();
-        setCoverVideoUrl(url);
+        toast.success(data.message);
+        setCoverVideoUrl(data.url);
       } else {
-        setVideoUploading(false);
-        console.error("Video upload failed");
+        toast.error(data.error);
       }
     } catch (error) {
-      setVideoUploading(false);
+      toast.error("Error occurred");
       console.error("Error uploading video:", error);
+    } finally {
+      setVideoUploading(false);
     }
   };
 
@@ -78,13 +95,14 @@ const CreateBlog = () => {
     e.preventDefault();
 
     if (coverVideo && !coverVideoUrl) {
-      console.error("Please upload the video first");
+      toast.error("Please upload the video first");
       return;
     }
 
     try {
+      startLoading();
       const coverPictureUrl = await uploadCoverPicture(coverPicture);
-      // Replace this with your actual backend API endpoint or data insertion logic
+
       const response = await fetch("/api/blog/create", {
         method: "POST",
         headers: {
@@ -98,14 +116,19 @@ const CreateBlog = () => {
         }),
       });
 
+      const data = await response.json();
       if (response.ok) {
         // Redirect to the dashboard or the newly created blog page
         router.push("/dashboard");
+        toast.success(data.message);
       } else {
-        console.error("Blog creation failed");
+        toast.error(data.error);
       }
     } catch (error) {
+      toast.error("Error occurred");
       console.error("Blog creation error:", error);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -130,7 +153,7 @@ const CreateBlog = () => {
           className={styles.fileInput}
         />
 
-        <label className={styles.formLabel}>Cover Video:</label>
+        <label className={styles.formLabel}>Cover Video (Optional):</label>
         <input
           type="file"
           accept="video/*"
@@ -142,11 +165,13 @@ const CreateBlog = () => {
           onClick={handleVideoUpload}
           disabled={!coverVideo || videoUploading}
         >
-          {videoUploading && !coverVideoUrl
-            ? "Uploading..."
-            : !coverVideoUrl
-            ? "Upload Video"
-            : "Uploaded"}
+          {videoUploading && !coverVideoUrl ? (
+            "Uploading..."
+          ) : !coverVideoUrl ? (
+            "Upload Video"
+          ) : (
+            <p>Uploaded &#10004;</p>
+          )}
         </button>
 
         <label className={styles.formLabel}>Blog Content:</label>
@@ -161,9 +186,10 @@ const CreateBlog = () => {
           type="submit"
           className={`${styles.submitButton} ${styles.blueBtn}`}
         >
-          Create Blog
+          Publish
         </button>
       </form>
+      {loading && <Loader />}
     </div>
   );
 };

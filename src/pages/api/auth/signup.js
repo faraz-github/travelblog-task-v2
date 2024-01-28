@@ -8,7 +8,7 @@ const MAX_AGE = 60 * 60 * 24 * 7; // 1 week in seconds
 const signUp = async (req, res) => {
   try {
     if (req.method !== "POST") {
-      return res.status(405).json({ message: "Method Not Allowed" });
+      return res.status(405).json({ error: "Method Not Allowed" });
     }
 
     const { name, email, password, profilePicture } = req.body;
@@ -16,7 +16,7 @@ const signUp = async (req, res) => {
     // Check if the username already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ error: "User already exists" });
     }
 
     // Perform password hashing
@@ -42,7 +42,7 @@ const signUp = async (req, res) => {
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

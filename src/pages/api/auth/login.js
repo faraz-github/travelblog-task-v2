@@ -8,7 +8,7 @@ const MAX_AGE = 60 * 60 * 24 * 7; // 1 week in seconds
 const login = async (req, res) => {
   try {
     if (req.method !== "POST") {
-      return res.status(405).json({ message: "Method Not Allowed" });
+      return res.status(405).json({ error: "Method Not Allowed" });
     }
 
     const { email, password } = req.body;
@@ -16,12 +16,12 @@ const login = async (req, res) => {
     // Check if the username already exists
     const existingUser = await User.findOne({ email });
     if (!existingUser) {
-      return res.status(400).json({ message: "User does not exist" });
+      return res.status(400).json({ error: "User does not exist" });
     }
 
     // Check if the password is correct
     if (!(await bcrypt.compare(password, existingUser.password))) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
     // Create a JWT token
@@ -36,7 +36,7 @@ const login = async (req, res) => {
     res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

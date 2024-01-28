@@ -11,7 +11,7 @@ const checkAuth = async (req, res) => {
 
     // If the token is not present, the user is not authenticated
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     // Verify the token using the secret key
@@ -21,7 +21,7 @@ const checkAuth = async (req, res) => {
     res.status(200).json({ message: "Authenticated", user: decodedToken });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

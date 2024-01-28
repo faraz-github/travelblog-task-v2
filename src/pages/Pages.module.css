@@ -11,41 +11,56 @@
 }
 
 .blueBtn {
-  background-color: var(--blue-button);
-  color: var(--white);
+  background-color: var(--blue-900);
+  color: var(--blue-100);
 }
 
 .greenBtn {
-  background-color: var(--green-button);
-  color: var(--white);
+  background-color: var(--green-900);
+  color: var(--green-100);
 }
 
-/* Forms (Sign Up / Login / Logout / Create) CSS */
+.redBtn {
+  background-color: var(--red-900);
+  color: var(--red-100);
+}
+
+/* ---Forms (Sign Up / Login / Logout / Create) CSS */
 
 .userFormContainer {
   max-width: 400px;
   margin: auto;
   margin-top: 50px;
+  background-color: var(--blue-100);
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .userFormTitle {
   font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .formLabel {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .inputField {
   width: 100%;
   margin-bottom: 15px;
   padding: 8px;
+  border-radius: 5px;
 }
 
 .fileInput {
   display: block;
   margin-bottom: 20px;
+  border: 1px solid var(--grey-100);
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .submitButton {
@@ -55,22 +70,19 @@
   cursor: pointer;
 }
 
-.uploadButton {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
 .blogFormContainer {
   max-width: 600px;
   margin: auto;
   margin-top: 50px;
+  background-color: var(--blue-100);
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .blogFormTitle {
   font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .textareaField {
@@ -80,28 +92,42 @@
   min-height: 150px;
 }
 
-/* --- */
-
-/* Single Blog Page */
-.blogContainer {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-}
-
-.title {
-  font-size: 2rem;
+.uploadButton {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
   margin-bottom: 10px;
 }
 
+.uploadButton:disabled {
+  background-color: var(--grey-500);
+}
+
+/* ---Single Blog Page */
+.blogContainer {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  background-color: var(--grey-200);
+}
+
+.title {
+  color: var(--grey-800);
+  padding: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* If blog has only coverPicture */
 .coverPicture {
   width: 100%;
   height: 500px;
   object-fit: cover;
   object-position: center;
 }
-/* Video CSS */
 
+/* If blog has both coverVideo and coverPicture */
 .coverImage {
   width: 100%;
   height: 500px;
@@ -114,53 +140,71 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 100%;
+  height: 100%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.playButtonIcon {
-  width: 50px;
-  height: 50px;
-  background-color: rgba(0, 0, 0, 0.7);
-  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
-  position: relative;
+.playButtonOverlay > p {
+  font-size: 4rem;
 }
 
-.playButtonIcon::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 15px 0 15px 30px;
-  border-color: transparent transparent transparent rgba(255, 255, 255, 0.9);
+.playButtonOverlay > p:hover {
+  font-size: 5rem;
 }
-/* End */
 
 .modalVideo {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure the video covers the entire container */
+  object-fit: cover;
 }
 
 .blogContent {
   line-height: 1.6;
+  font-size: 1em;
+  margin-top: 10px;
   margin-bottom: 20px;
+  color: var(--grey-900);
 }
 
 .authorInfo {
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  color: var(--grey-700);
 }
 
 .publishedDate {
   font-style: italic;
+  color: var(--grey-500);
 }
 
-/* Media queries for responsiveness */
+/* ---Pagination */
+
+.paginationContainer {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.paginationButton {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.paginationButton:disabled {
+  background-color: var(--grey-500);
+}
+
+/* ---Media queries for responsiveness */
 
 /* Tablet Screen */
 @media (min-width: 768px) {

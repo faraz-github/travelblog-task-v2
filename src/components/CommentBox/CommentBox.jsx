@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import styles from "./CommentBox.module.css";
 
 const CommentBox = ({ loggedInUser, onSubmit }) => {
@@ -25,10 +26,7 @@ const CommentBox = ({ loggedInUser, onSubmit }) => {
             placeholder="Write a comment..."
             className={styles.commentInput}
           />
-          <button
-            type="submit"
-            className={`${styles.postButton} ${styles.blueBtn}`}
-          >
+          <button type="submit" className={styles.postButton}>
             Post
           </button>
         </form>

@@ -8,7 +8,7 @@ const SECRET = process.env.JWT_SECRET;
 const create = async (req, res) => {
   try {
     if (req.method !== "POST") {
-      return res.status(405).json({ message: "Method Not Allowed" });
+      return res.status(405).json({ error: "Method Not Allowed" });
     }
 
     const { title, coverPicture, coverVideo, blogContent } = req.body;
@@ -20,7 +20,7 @@ const create = async (req, res) => {
 
     // If the token is not present, the user is not authenticated
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     // Author Info
@@ -43,7 +43,7 @@ const create = async (req, res) => {
     res.status(201).json({ message: "Blog created successfully" });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

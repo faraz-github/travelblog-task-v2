@@ -1,17 +1,19 @@
 .card {
   width: 100%;
   padding: 20px;
-  border: 2px solid var(--grey-900);
   border-radius: 5px;
-  background-color: var(--grey-500);
-  font-family: monospace;
+  border: 2px solid var(--grey-100);
+  background-color: var(--grey-200);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
 .plusCard {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: transform 0.2s;
 }
 
@@ -20,5 +22,6 @@
 }
 
 .plus {
-  font-size: 10em;
+  font-size: 15em;
+  color: var(--green-500);
 }

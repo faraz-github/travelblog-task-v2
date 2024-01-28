@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+
 import RedirectedRoute from "@/components/RedirectedRoute";
+import Loader from "@/components/Loader/Loader";
+
 import { useAuth } from "@/contexts/AuthContext";
+import { useLoading } from "@/contexts/LoadingContext";
+
 import styles from "./Pages.module.css";
 
 const Login = () => {
   const router = useRouter();
   const { setIsAuthenticated } = useAuth();
+  const { loading, startLoading, stopLoading } = useLoading();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,6 +21,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      startLoading();
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -21,15 +29,20 @@ const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
+      const data = await response.json();
 
       if (response.ok) {
         setIsAuthenticated(true);
         router.push("/dashboard");
+        toast.success(data.message);
       } else {
-        console.error("Login failed");
+        toast.error(data.error);
       }
     } catch (error) {
+      toast.error("Error occurred");
       console.error("Login error:", error);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -62,6 +75,7 @@ const Login = () => {
           Login
         </button>
       </form>
+      {loading && <Loader />}
     </div>
   );
 };

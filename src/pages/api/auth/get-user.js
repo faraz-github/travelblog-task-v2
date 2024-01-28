@@ -12,7 +12,7 @@ const getUser = async (req, res) => {
 
     // If the token is not present, the user is not authenticated
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     // Verify the token using the secret key
@@ -29,7 +29,7 @@ const getUser = async (req, res) => {
       .json({ message: "Authenticated", user: { name, profilePicture } });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import styles from "./Card.module.css";
 import Image from "next/image";
+
+import styles from "./Card.module.css";
 
 const Card = ({
   id,

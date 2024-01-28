@@ -1,11 +1,14 @@
 import { useState } from "react";
+import Link from "next/link";
+import toast from "react-hot-toast";
+
 import CommentBox from "../CommentBox/CommentBox";
-import {
-  formatDateIntoMonthNameDateNumberYearNumber,
-  formatObjectIdIntoMonthNameDateNumberYearNumber,
-} from "@/utils/momentUtils";
-import styles from "./Comments.module.css";
+
 import { useAuth } from "@/contexts/AuthContext";
+
+import { formatObjectIdIntoMonthNameDateNumberYearNumber } from "@/utils/momentUtils";
+
+import styles from "./Comments.module.css";
 
 const Comments = ({ blogId, comments }) => {
   const { isAuthenticated, loggedInUser } = useAuth();
@@ -28,18 +31,17 @@ const Comments = ({ blogId, comments }) => {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        console.error("Error posting comment:", response.statusText);
-      } else {
-        const newComment = await response.json();
+      const data = await response.json();
 
+      if (response.ok) {
         // Update the local state with the new comment
-        setLocalCommentsState((prevState) => [
-          ...prevState,
-          newComment.lastComment,
-        ]);
+        setLocalCommentsState((prevState) => [...prevState, data.lastComment]);
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
       }
     } catch (error) {
+      toast.error("Error occurred");
       console.error("Error posting comment:", error);
     }
   };
@@ -66,7 +68,12 @@ const Comments = ({ blogId, comments }) => {
       {isAuthenticated && loggedInUser ? (
         <CommentBox loggedInUser={loggedInUser} onSubmit={handlePostComment} />
       ) : (
-        <p>Login to comment</p>
+        <p>
+          <Link href={"/login"} style={{ textDecoration: "underline" }}>
+            Login
+          </Link>{" "}
+          to comment
+        </p>
       )}
     </div>
   );

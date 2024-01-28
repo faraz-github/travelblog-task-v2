@@ -1,8 +1,11 @@
 .footer {
   margin-top: 50px;
-  background-color: var(--grey-500);
-  border-top: 2px solid var(--grey-900);
+  background-color: var(--grey-200);
+  border-top: 2px solid var(--grey-700);
   padding-top: 20px;
   text-align: center;
   color: var(--grey-900);
+}
+.footer > p {
+  padding: 10px;
 }

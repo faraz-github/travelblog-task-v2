@@ -15,7 +15,7 @@ const handler = async (req, res) => {
 
       // If the token is not present, the user is not authenticated
       if (!token) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ error: "Unauthorized" });
       }
 
       // Verify the token using the secret key

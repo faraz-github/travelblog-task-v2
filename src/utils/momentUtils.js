@@ -9,7 +9,4 @@ export const formatObjectIdIntoMonthNameDateNumberYearNumber = (objectId) => {
   const date = new Date(parseInt(timestamp, 16) * 1000);
 
   return formatDateIntoMonthNameDateNumberYearNumber(date);
-
-  // const options = { year: "numeric", month: "long", day: "numeric" };
-  // return new Date(dateString).toLocaleDateString(undefined, options);
 };

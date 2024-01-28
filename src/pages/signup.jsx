@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+
 import RedirectedRoute from "@/components/RedirectedRoute";
+import Loader from "@/components/Loader/Loader";
+
 import { useAuth } from "@/contexts/AuthContext";
+import { useLoading } from "@/contexts/LoadingContext";
+
 import styles from "./Pages.module.css";
 
 const SignUp = () => {
   const router = useRouter();
   const { setIsAuthenticated } = useAuth();
+  const { loading, startLoading, stopLoading } = useLoading();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +33,7 @@ const SignUp = () => {
   const uploadAdminPicture = async (base64EncodedImage) => {
     try {
       // Upload profile picture to Cloudinary
-      const imageData = await fetch("/api/upload/user/image", {
+      const response = await fetch("/api/upload/user/image", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,9 +41,14 @@ const SignUp = () => {
         body: JSON.stringify({ profilePicture: base64EncodedImage }),
       });
 
-      const { url } = await imageData.json();
-      return url;
+      const data = await response.json();
+      if (response.ok) {
+        return data.url;
+      } else {
+        toast.error(data.error);
+      }
     } catch (error) {
+      toast.error("Error occurred");
       console.error("Upload error:", error);
     }
   };
@@ -44,6 +57,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
+      startLoading();
       const profilePictureUrl = await uploadAdminPicture(profilePicture);
 
       const response = await fetch("/api/auth/signup", {
@@ -59,14 +73,20 @@ const SignUp = () => {
         }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         setIsAuthenticated(true);
         router.push("/dashboard");
+        toast.success(data.message);
       } else {
-        console.error("Sign-up failed");
+        toast.error(data.error);
       }
     } catch (error) {
+      toast.error("Error occurred");
       console.error("Sign-up error:", error);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -115,6 +135,7 @@ const SignUp = () => {
           Sign Up
         </button>
       </form>
+      {loading && <Loader />}
     </div>
   );
 };

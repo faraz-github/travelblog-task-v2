@@ -1,25 +1,37 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Card from "@/components/Card/Card";
 import PlusCard from "@/components/Card/PlusCard/PlusCard";
+import Loader from "@/components/Loader/Loader";
+
+import { useLoading } from "@/contexts/LoadingContext";
 
 import { formatDateIntoMonthNameDateNumberYearNumber } from "@/utils/momentUtils";
 
 import styles from "./Pages.module.css";
 
 const Dashboard = () => {
+  const { loading, startLoading, stopLoading } = useLoading();
   const [blogs, setBlogs] = useState([]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
+        startLoading();
         const response = await fetch("/api/blogs/user");
         const data = await response.json();
-
-        setBlogs(data);
+        if (response.ok) {
+          setBlogs(data);
+        } else {
+          toast.error(data.error);
+        }
       } catch (error) {
+        toast.error("Error occurred");
         console.error("Error fetching blogs:", error);
+      } finally {
+        stopLoading();
       }
     };
 
@@ -48,6 +60,8 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+      {/* Loading */}
+      {loading && <Loader />}
     </div>
   );
 };

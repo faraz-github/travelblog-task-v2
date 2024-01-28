@@ -10,7 +10,7 @@ export const config = {
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method Not Allowed" });
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
 
   try {
@@ -36,7 +36,10 @@ export default async function handler(req, res) {
         resource_type: "video",
         folder: "TravelBlog-Task/Blogs/Video",
       });
-      res.status(200).json({ url: uploadedResponse.secure_url });
+      res.status(200).json({
+        message: "Video uploaded successfully",
+        url: uploadedResponse.secure_url,
+      });
     });
   } catch (error) {
     console.error("Error handling file upload:", error);
