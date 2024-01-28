@@ -19,7 +19,8 @@
     "nookies": "^2.5.2",
     "parser": "^0.1.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
