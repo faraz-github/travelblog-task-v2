@@ -2,7 +2,7 @@ import { parse } from "cookie";
 import Blog from "@/models/Blog";
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const { blogId } = req.query;
 
   if (req.method === "POST") {
     try {
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
       // If the token is not present, the user is not authenticated
       if (!token) {
-        return res.status(401).json({ message: "Unauthorized" });
+        return res.status(401).json({ error: "Unauthorized" });
       }
       const payload = {
         comment: comment,
@@ -26,16 +26,16 @@ export default async function handler(req, res) {
       };
 
       const response = await Blog.updateOne(
-        { _id: id },
+        { _id: blogId },
         { $push: { comments: payload } }
       );
       if (response.acknowledged == true) {
         // Find the latest comments
-        const response = await Blog.findOne({ _id: id }, "comments");
+        const response = await Blog.findOne({ _id: blogId }, "comments");
         const latestComments = response.comments;
         const lastComment = latestComments[latestComments.length - 1];
 
-        // Return latest and last created comment along with response
+        // Return latest comment along with response
         res.status(201).json({
           message: "Comment posted successfully",
           lastComment: lastComment,

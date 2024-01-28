@@ -3,10 +3,10 @@ import Blog from "@/models/Blog";
 const handler = async (req, res) => {
   if (req.method === "GET") {
     try {
-      const { bid } = req.query;
+      const { blogId } = req.query;
 
       // Fetch the blog by ID
-      const blog = await Blog.findById(bid);
+      const blog = await Blog.findById(blogId);
 
       if (!blog) {
         return res.status(404).json({ error: "Blog not found" });
