@@ -53,7 +53,7 @@ const BlogPage = () => {
     if (blogId) {
       fetchBlog();
     }
-  }, [blogId]);
+  }, [blogId, startLoading, stopLoading]);
 
   return (
     <div className={styles.blogContainer}>

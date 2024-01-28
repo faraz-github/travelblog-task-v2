@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 
 import styles from "./CommentBox.module.css";
 
@@ -13,7 +14,10 @@ const CommentBox = ({ loggedInUser, onSubmit }) => {
 
   return (
     <div className={styles.commentBox}>
-      <img
+      <Image
+        width={0}
+        height={0}
+        sizes="100vw"
         src={loggedInUser.profilePicture}
         alt={loggedInUser.name}
         className={styles.avatar}

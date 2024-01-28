@@ -41,7 +41,7 @@ export default function Home() {
     };
 
     fetchBlogs();
-  }, [page]);
+  }, [page, startLoading, stopLoading]);
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);

@@ -34,7 +34,7 @@ const Logout = () => {
     };
 
     logout();
-  }, [router]);
+  }, [router, setIsAuthenticated]);
 
   return (
     <div className={styles.userFormContainer}>

@@ -36,7 +36,7 @@ const Dashboard = () => {
     };
 
     fetchBlogs();
-  }, []);
+  }, [startLoading, stopLoading]);
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
@@ -51,7 +52,10 @@ const Comments = ({ blogId, comments }) => {
       <h2 className={styles.title}>Comments</h2>
       {localCommentState.map((comment, index) => (
         <div key={comment._id || index} className={styles.comment}>
-          <img
+          <Image
+            width={0}
+            height={0}
+            sizes="100vw"
             src={comment.author.profilePicture}
             alt={comment.author.name}
             className={styles.avatar}
