@@ -6,11 +6,11 @@ import Blog from "@/models/Blog";
 const SECRET = process.env.JWT_SECRET;
 
 const create = async (req, res) => {
-  try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ error: "Method Not Allowed" });
-    }
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
 
+  try {
     const { title, coverPicture, coverVideo, blogContent } = req.body;
 
     // Auth Check

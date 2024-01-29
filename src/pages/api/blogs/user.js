@@ -1,5 +1,4 @@
 import Blog from "@/models/Blog";
-import User from "@/models/User";
 import { parse } from "cookie";
 import { verify } from "jsonwebtoken";
 

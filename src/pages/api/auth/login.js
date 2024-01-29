@@ -6,11 +6,11 @@ const SECRET = process.env.JWT_SECRET;
 const MAX_AGE = 60 * 60 * 24 * 7; // 1 week in seconds
 
 const login = async (req, res) => {
-  try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ error: "Method Not Allowed" });
-    }
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
 
+  try {
     const { email, password } = req.body;
 
     // Check if the username already exists
