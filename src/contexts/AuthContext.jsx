@@ -1,37 +1,33 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext } from "react";
+import useSWR from "swr";
+import toast from "react-hot-toast";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  // Data Fetching
+  const { data, error, isLoading } = useSWR("/api/auth/get-user", fetcher, {
+    refreshInterval: 500,
+  });
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        // Check authentication on the server-side
-        const response = await fetch("/api/auth/get-user");
-        const data = await response.json();
-        if (!response.ok) {
-          setIsAuthenticated(false);
-          setLoggedInUser(null);
-        } else {
-          setIsAuthenticated(true);
-          setLoggedInUser(data.user);
-        }
-      } catch (error) {
-        console.error("Check auth error:", error);
-      }
-    };
+  // Handle Loading
+  if (isLoading) return <p>Loading auth...</p>;
 
-    checkAuth();
-  }, [isAuthenticated]);
+  // Handle Error
+  if (data.error) console.log(data.error); // error defined in api
+  if (error) toast.error(error.message);
+
+  if (!data) return <p>Loading authentication data...</p>;
+
+  const isAuthenticated = data.user ? true : false;
+  const loggedInUser = data.user ? data.user : null;
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        setIsAuthenticated,
         loggedInUser,
       }}
     >

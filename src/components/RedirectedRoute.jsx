@@ -1,33 +1,30 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+import toast from "react-hot-toast";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const RedirectedRoute = (WrappedComponent) => {
   const Wrapper = (props) => {
     const router = useRouter();
-    const [authenticated, setAuthenticated] = useState(null);
 
-    useEffect(() => {
-      const checkAuth = async () => {
-        try {
-          const response = await fetch("/api/auth/check-auth");
+    // Data Fetching
+    const { data, error, isLoading } = useSWR("/api/auth/check-auth", fetcher);
 
-          if (response.ok) {
-            // If authenticated, redirect to the protected page
-            router.replace("/dashboard");
-          } else {
-            // If not authenticated, set the state to false
-            setAuthenticated(false);
-          }
-        } catch (error) {
-          console.error("Check auth error:", error);
-        }
-      };
+    // Handle Error
+    if (error) toast.error(error.message);
 
-      checkAuth();
-    }, [router]);
+    // Handle Redirect
+    if (data?.user) {
+      router.replace("/dashboard");
+    }
 
     // Render the wrapped component only if not authenticated
-    return !authenticated ? <WrappedComponent {...props} /> : null;
+    if (isLoading || !data) {
+      return null;
+    } else {
+      return !data?.user ? <WrappedComponent {...props} /> : null;
+    }
   };
 
   // Return the wrapped component

@@ -1,44 +1,41 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-
-import { useAuth } from "@/contexts/AuthContext";
 
 import styles from "./Pages.module.css";
 
 const Logout = () => {
   const router = useRouter();
-  const { setIsAuthenticated } = useAuth();
 
-  useEffect(() => {
-    const logout = async () => {
-      try {
-        const response = await fetch("/api/auth/logout");
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout");
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok) {
-          setIsAuthenticated(false);
-          router.push("/login");
-          toast.success(data.message, {
-            id: "logoutSuccessToast", // To prevent duplicate toasts, id is given
-          });
-        } else {
-          toast.error(data.error);
-          console.error("Logout failed");
-        }
-      } catch (error) {
-        toast.error("Error occurred");
-        console.error("Logout error:", error);
+      if (response.ok) {
+        router.push("/login");
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+        console.error("Logout failed");
       }
-    };
-
-    logout();
-  }, [router, setIsAuthenticated]);
+    } catch (error) {
+      toast.error("Error occurred");
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <div className={styles.userFormContainer}>
       <p>Logging out...</p>
+      <center>
+        <button
+          onClick={handleLogout}
+          className={`${styles.submitButton} ${styles.redBtn}`}
+        >
+          Log Out
+        </button>
+      </center>
     </div>
   );
 };
