@@ -2,6 +2,8 @@ import { createContext, useContext } from "react";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 
+import Loader from "@/components/Loader/Loader";
+
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const AuthContext = createContext();
@@ -13,13 +15,11 @@ export const AuthProvider = ({ children }) => {
   });
 
   // Handle Loading
-  if (isLoading) return <p>Loading auth...</p>;
+  if (isLoading) return <Loader />;
 
   // Handle Error
   if (data.error) console.log(data.error); // error defined in api
   if (error) toast.error(error.message);
-
-  if (!data) return <p>Loading authentication data...</p>;
 
   const isAuthenticated = data.user ? true : false;
   const loggedInUser = data.user ? data.user : null;
